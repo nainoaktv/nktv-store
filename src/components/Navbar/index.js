@@ -1,10 +1,10 @@
 "use client";
 
-import { adminNavOptions, navOptions } from "@/utils";
+import { adminNavOptions, navOptions, styles } from "@/utils";
 import { Fragment } from "react";
 
 const isAdminView = false;
-const isAuthUser = false;
+const isAuthUser = true;
 const user = {
   role: "admin",
 };
@@ -51,21 +51,21 @@ export default function Navbar() {
           <div className="flex md:order-2 gap-2">
             {!isAdminView && isAuthUser ? (
               <Fragment>
-                <button className="btn-text">Account</button>
-                <button className="btn-text">Cart</button>
+                <button className="nav-btn">Account</button>
+                <button className="nav-btn">Cart</button>
               </Fragment>
             ) : null}
             {user?.role === "admin" ? (
               isAdminView ? (
-                <button className="btn-text">Customer View</button>
+                <button className="nav-btn">Customer View</button>
               ) : (
-                <button className="btn-text">Admin View</button>
+                <button className="nav-btn">Admin View</button>
               )
             ) : null}
             {isAuthUser ? (
-              <button className="btn-text">Logout</button>
+              <button className="nav-btn">Logout</button>
             ) : (
-              <button className="btn-text">Login</button>
+              <button className="nav-btn">Login</button>
             )}
             <button
               data-collapse-toggle="navbar-sticky"
@@ -83,9 +83,9 @@ export default function Navbar() {
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                  clip-rule="evenodd"
+                  clipRule="evenodd"
                 ></path>
               </svg>
             </button>
