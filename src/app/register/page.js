@@ -24,17 +24,17 @@ export default function Register() {
                 </button>
               ) : (
                 <div className="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8">
-                  {registrationFormControls.map((items) =>
-                    items.componentType === "input" ? (
+                  {registrationFormControls.map((controlItem) =>
+                    controlItem.componentType === "input" ? (
                       <InputComponent
-                        type={items.type}
-                        placeholder={items.placeholder}
-                        label={items.label}
+                        type={controlItem.type}
+                        placeholder={controlItem.placeholder}
+                        label={controlItem.label}
                       />
-                    ) : items.componentType === "select" ? (
+                    ) : controlItem.componentType === "select" ? (
                       <SelectComponent
-                        options={items.options}
-                        label={items.label}
+                        options={controlItem.options}
+                        label={controlItem.label}
                       />
                     ) : null
                   )}
