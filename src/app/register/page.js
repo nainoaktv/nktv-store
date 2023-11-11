@@ -30,11 +30,13 @@ export default function Register() {
                         type={controlItem.type}
                         placeholder={controlItem.placeholder}
                         label={controlItem.label}
+                        key={controlItem.id}
                       />
                     ) : controlItem.componentType === "select" ? (
                       <SelectComponent
                         options={controlItem.options}
                         label={controlItem.label}
+                        key={controlItem.id}
                       />
                     ) : null
                   )}

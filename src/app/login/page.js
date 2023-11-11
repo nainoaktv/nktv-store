@@ -22,6 +22,7 @@ export default function Login() {
                       type={loginItem.type}
                       placeholder={loginItem.placeholder}
                       label={loginItem.label}
+                      key={loginItem.id}
                     />
                   ) : null
                 )}
