@@ -1,6 +1,10 @@
 "use client";
 
-const isRegistered = true;
+import InputComponent from "@/components/FormElements/InputComponent";
+import SelectComponent from "@/components/FormElements/SelectComponent";
+import { registrationFormControls } from "@/utils";
+
+const isRegistered = false;
 
 export default function Register() {
   return (
@@ -15,10 +19,30 @@ export default function Register() {
                   : "Sign up for an account"}
               </p>
               {isRegistered ? (
-                <button className="inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out fcous:shadow font-medium uppercase tracking-wide">
+                <button className="inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide">
                   Login
                 </button>
-              ) : null}
+              ) : (
+                <div className="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8">
+                  {registrationFormControls.map((items) =>
+                    items.componentType === "input" ? (
+                      <InputComponent
+                        type={items.type}
+                        placeholder={items.placeholder}
+                        label={items.label}
+                      />
+                    ) : items.componentType === "select" ? (
+                      <SelectComponent
+                        options={items.options}
+                        label={items.label}
+                      />
+                    ) : null
+                  )}
+                  <button className="inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide">
+                    Register
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
