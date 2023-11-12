@@ -1,5 +1,6 @@
 import dbConnection from "@/database";
 import User from "@/models/user";
+import { hash } from "bcryptjs";
 import Joi from "joi";
 import { NextResponse } from "next/server";
 
@@ -12,17 +13,17 @@ const schema = Joi.object({
 
 export const dynamic = "force-dynamic";
 
-export async function POST(req) {
+export async function POST(request) {
   await dbConnection();
 
-  const { name, email, password, role } = await req.json();
+  const { name, email, password, role } = await request.json();
 
   const { error } = schema.validate({ name, email, password, role });
 
   if (error) {
     return NextResponse.json({
       success: false,
-      message: email.details[0],
+      message: error.details[0].message,
     });
   }
 
