@@ -87,7 +87,9 @@ export default function Navbar() {
                 Logout
               </button>
             ) : (
-              <button className="nav-btn">Login</button>
+              <button className="nav-btn" onClick={() => router.push("/login")}>
+                Login
+              </button>
             )}
             <button
               data-collapse-toggle="navbar-sticky"
