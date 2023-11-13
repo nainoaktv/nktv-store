@@ -2,11 +2,16 @@
 
 import InputComponent from "@/components/FormElements/InputComponent";
 import SelectComponent from "@/components/FormElements/SelectComponent";
+import ComponentLevelLoader from "@/components/Loader/componentlevel";
+
+import { GlobalContext } from "@/context";
 import { registerNewUser } from "@/services/register";
 import { registrationFormControls } from "@/utils";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useContext, useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
-const isRegistered = false;
+// const isRegistered = false;
 
 const initialFormData = {
   name: "",
@@ -17,6 +22,11 @@ const initialFormData = {
 
 export default function Register() {
   const [formData, setFormData] = useState(initialFormData);
+  const [isRegistered, setIsRegistered] = useState(false);
+  const { pageLevelLoader, setPageLevelLoader, isAuthUser } =
+    useContext(GlobalContext);
+
+  const router = useRouter();
 
   console.log(formData);
 
@@ -35,10 +45,35 @@ export default function Register() {
   console.log(formValid());
 
   async function handleRegister() {
+    setPageLevelLoader(true);
     const data = await registerNewUser(formData);
 
+    if (data.success) {
+      toast.success("Account Created", {
+        position: "top-right",
+        isClosable: true,
+        duration: 5000,
+        theme: "dark",
+      });
+      setIsRegistered(true);
+      setPageLevelLoader(false);
+      setFormData(initialFormData);
+    } else {
+      toast.error("There was an error while registering", {
+        position: "top-right",
+        isClosable: true,
+        duration: 5000,
+        theme: "dark",
+      });
+      setPageLevelLoader(false);
+      setFormData(initialFormData);
+    }
     console.log(data);
   }
+
+  useEffect(() => {
+    if (isAuthUser) router.push("/");
+  }, [isAuthUser]);
 
   return (
     <div className="bg-white relative text-black">
@@ -52,7 +87,10 @@ export default function Register() {
                   : "Sign up for an account"}
               </p>
               {isRegistered ? (
-                <button className="inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide">
+                <button
+                  className="inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide"
+                  onClick={() => router.push("/login")}
+                >
                   Login
                 </button>
               ) : (
@@ -92,7 +130,15 @@ export default function Register() {
                     disabled={!formValid()}
                     onClick={handleRegister}
                   >
-                    Register
+                    {pageLevelLoader ? (
+                      <ComponentLevelLoader
+                        text={"Registering"}
+                        color={"#ffffff"}
+                        loading={pageLevelLoader}
+                      />
+                    ) : (
+                      "Register"
+                    )}
                   </button>
                 </div>
               )}
