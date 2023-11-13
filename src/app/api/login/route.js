@@ -1,4 +1,6 @@
 import dbConnection from "@/database";
+import User from "@/models/user";
+import { compare } from "bcryptjs";
 import Joi from "joi";
 import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
@@ -34,7 +36,7 @@ export async function POST(request) {
       });
     }
 
-    const checkPassword = await compare(password, checkUser.passwords);
+    const checkPassword = await compare(password, checkUser.password);
 
     if (!checkPassword) {
       return NextResponse.json({
