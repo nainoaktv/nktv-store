@@ -37,6 +37,8 @@ export default function GlobalState({ children }) {
         setUser,
         pageLevelLoader,
         setPageLevelLoader,
+        componentLevelLoader,
+        setComponentLevelLoader,
       }}
     >
       {children}

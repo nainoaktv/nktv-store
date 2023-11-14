@@ -3,7 +3,7 @@
 import InputComponent from "@/components/FormElements/InputComponent";
 import SelectComponent from "@/components/FormElements/SelectComponent";
 import ComponentLevelLoader from "@/components/Loader/componentlevel";
-
+import Notification from "@/components/Notification";
 import { GlobalContext } from "@/context";
 import { registerNewUser } from "@/services/register";
 import { registrationFormControls } from "@/utils";
@@ -49,21 +49,15 @@ export default function Register() {
     const data = await registerNewUser(formData);
 
     if (data.success) {
-      toast.success("Account Created", {
-        position: "top-right",
-        isClosable: true,
-        duration: 5000,
-        theme: "dark",
+      toast.success(data.message, {
+        position: toast.POSITION.TOP_RIGHT,
       });
       setIsRegistered(true);
       setPageLevelLoader(false);
       setFormData(initialFormData);
     } else {
-      toast.error("There was an error while registering", {
-        position: "top-right",
-        isClosable: true,
-        duration: 5000,
-        theme: "dark",
+      toast.error(data.message, {
+        position: toast.POSITION.TOP_RIGHT,
       });
       setPageLevelLoader(false);
       setFormData(initialFormData);
@@ -146,6 +140,7 @@ export default function Register() {
           </div>
         </div>
       </div>
+      <Notification />
     </div>
   );
 }
