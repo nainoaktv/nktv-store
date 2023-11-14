@@ -6,7 +6,7 @@ import TileComponent from "@/components/TileComponent";
 import { adminAddProductFormControls, availableSizes } from "@/utils";
 
 export default function AdminAddNewProduct() {
-  // TODO: Left off here
+  // TODO: Complete handle image function.
   function handleImage() {}
 
   return (
@@ -37,6 +37,9 @@ export default function AdminAddNewProduct() {
               />
             ) : null
           )}
+          <button className="inline-flex w-full items-center justify-center bg-black text-white px-6 py-4 text-lg font-medium uppercase tracking-wide">
+            Add Product
+          </button>
         </div>
       </div>
     </div>
