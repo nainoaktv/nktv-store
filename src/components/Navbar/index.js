@@ -5,11 +5,9 @@ import { adminNavOptions, navOptions } from "@/utils";
 import { Fragment, useContext } from "react";
 import CommonModal from "../CommonModal";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
-const isAdminView = false;
-
-function NavItems({ isModalView = false }) {
+function NavItems({ isModalView = false, isAdminView, router }) {
   return (
     <div
       className={`items-center justify-between w-full md:flex md:w-auto ${
@@ -27,6 +25,7 @@ function NavItems({ isModalView = false }) {
               <li
                 className="cursor-pointer block py-2 pl-3 pr-4 text-black md:p-0"
                 key={item.id}
+                onClick={() => router.push(item.path)}
               >
                 {item.label}
               </li>
@@ -35,6 +34,7 @@ function NavItems({ isModalView = false }) {
               <li
                 className="cursor-pointer block py-2 pl-3 pr-4 text-black md:p-0"
                 key={item.id}
+                onClick={() => router.push(item.path)}
               >
                 {item.label}
               </li>
@@ -49,6 +49,7 @@ export default function Navbar() {
   const { user, isAuthUser, setIsAuthUser, setUser } =
     useContext(GlobalContext);
 
+  const pathName = usePathname();
   const router = useRouter();
 
   function handleLogout() {
@@ -59,11 +60,16 @@ export default function Navbar() {
     router.push("/");
   }
 
+  const isAdminView = pathName.includes("admin-view");
+
   return (
     <>
       <nav className="bg-white fixed w-full top-0 left-0 z-20 border-b border-gray-400">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <div className="flex items-center cursor-pointer">
+          <div
+            onClick={() => router.push("/")}
+            className="flex items-center cursor-pointer"
+          >
             <span className="self-center text-2xl font-semibold whitespace-nowrap text-black">
               NKTV Store
             </span>
@@ -77,9 +83,16 @@ export default function Navbar() {
             ) : null}
             {user?.role === "admin" ? (
               isAdminView ? (
-                <button className="nav-btn">Customer View</button>
+                <button onClick={() => router.push("/")} className="nav-btn">
+                  Customer View
+                </button>
               ) : (
-                <button className="nav-btn">Admin View</button>
+                <button
+                  onClick={() => router.push("/admin-view")}
+                  className="nav-btn"
+                >
+                  Admin View
+                </button>
               )
             ) : null}
             {isAuthUser ? (
@@ -115,12 +128,12 @@ export default function Navbar() {
               </svg>
             </button>
           </div>
-          <NavItems isModal={false} />
+          <NavItems router={router} isModal={false} isAdminView={isAdminView} />
         </div>
       </nav>
       <CommonModal
         showModalTitle={false}
-        mainContent={<NavItems isModalView={true} />}
+        mainContent={<NavItems isModalView={true} isAdminView={isAdminView} />}
         show={showNavModal}
         setShow={setShowNavModal}
       />

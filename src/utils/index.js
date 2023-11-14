@@ -35,7 +35,7 @@ export const adminNavOptions = [
   {
     id: "adminNewProduct",
     label: "Add New Product",
-    path: "/admin-view/add-products",
+    path: "/admin-view/add-product",
   },
 ];
 
