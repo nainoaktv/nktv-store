@@ -191,3 +191,15 @@ export const availableSizes = [
     label: "XL",
   },
 ];
+
+export const firebaseConfig = {
+  apiKey: "AIzaSyAf3YOfZClJQ3LRbW3oepqI9Ug_O0zdazY",
+  authDomain: "nktv-store.firebaseapp.com",
+  projectId: "nktv-store",
+  storageBucket: "nktv-store.appspot.com",
+  messagingSenderId: "1030215190606",
+  appId: "1:1030215190606:web:c21abcab8439d7eed1db1f",
+  measurementId: "G-S9Y657XTPT",
+};
+
+export const firebaseStorageUrl = "gs://nktv-store.appspot.com";
