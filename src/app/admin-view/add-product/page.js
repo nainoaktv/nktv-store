@@ -16,6 +16,7 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
+import { useState } from "react";
 
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app, firebaseStorageUrl);
@@ -49,14 +50,51 @@ async function helperForUploadingImageToFirebase(file) {
   });
 }
 
+const initialFormData = {
+  productName: "",
+  price: 0,
+  description: "",
+  category: "men",
+  sizes: [],
+  deliveryInfo: "",
+  onSale: "no",
+  imageUrl: "",
+  priceDrop: 0,
+};
+
 export default function AdminAddNewProduct() {
+  const [formData, setFormData] = useState(initialFormData);
+
   async function handleImage(event) {
-    console.log(event.target.files);
     const extractImageUrl = await helperForUploadingImageToFirebase(
       event.target.files[0]
     );
-    console.log(extractImageUrl);
+
+    if (extractImageUrl !== "") {
+      setFormData({
+        ...formData,
+        imageUrl: extractImageUrl,
+      });
+    }
   }
+
+  function handleTileClick(getCurrentItem) {
+    let copySizes = [...formData.sizes];
+    const index = copySizes.findIndex((item) => item.id === getCurrentItem.id);
+
+    if (index === -1) {
+      copySizes.push(getCurrentItem);
+    } else {
+      copySizes = copySizes.filter((item) => item.id !== getCurrentItem.id);
+    }
+
+    setFormData({
+      ...formData,
+      sizes: copySizes,
+    });
+  }
+
+  console.log(formData);
 
   return (
     <div className="w-full mt-5 mr-0 mb-0 ml-0 relative">
@@ -70,7 +108,11 @@ export default function AdminAddNewProduct() {
           />
           <div className="flex gap-2 flex-col">
             <label>Available Sizes</label>
-            <TileComponent data={availableSizes} />
+            <TileComponent
+              selected={formData.sizes}
+              onClick={handleTileClick}
+              data={availableSizes}
+            />
           </div>
           {adminAddProductFormControls.map((controlItem) =>
             controlItem.componentType === "input" ? (
@@ -78,11 +120,25 @@ export default function AdminAddNewProduct() {
                 type={controlItem.type}
                 placeholder={controlItem.placeholder}
                 label={controlItem.label}
+                value={formData[controlItem.id]}
+                onChange={(event) => {
+                  setFormData({
+                    ...formData,
+                    [controlItem.id]: event.target.value,
+                  });
+                }}
               />
             ) : controlItem.componentType === "select" ? (
               <SelectComponent
                 label={controlItem.label}
                 options={controlItem.options}
+                value={formData[controlItem.id]}
+                onChange={(event) => {
+                  setFormData({
+                    ...formData,
+                    [controlItem.id]: event.target.value,
+                  });
+                }}
               />
             ) : null
           )}
