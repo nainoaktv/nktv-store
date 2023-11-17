@@ -17,6 +17,12 @@ export default function ProductTile({ item }) {
           </p>
         </div>
       ) : null}
+      <div className="flex mx-auto my-4 w-10/12 flex-col items-start justify-between">
+        <div className="flex mb-2">
+          <p className="text-sm text-black mr-3 font-semibold">{`$${item.price}`}</p>
+        </div>
+        <h3 className="md-2 text-gray-500 text-sm">{item.productName}</h3>
+      </div>
     </div>
   );
 }

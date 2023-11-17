@@ -3,7 +3,7 @@
 export default function ProductButton() {
   return (
     <div>
-      <h1>Product Button</h1>
+      <h1 className="text-black">Product Button</h1>
     </div>
   );
 }
