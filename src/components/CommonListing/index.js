@@ -31,7 +31,10 @@ export default function CommonListing() {
         <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
           {dummyData && dummyData.length
             ? dummyData.map((item) => (
-                <article key={item._id}>
+                <article
+                  className="relative flex flex-col overflow-hidden border cursor-pointer"
+                  key={item._id}
+                >
                   <ProductTile item={item} />
                   <ProductButton item={item} />
                 </article>
