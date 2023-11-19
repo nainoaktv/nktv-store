@@ -8,7 +8,7 @@ import ComponentLevelLoader from "@/components/Loader/componentlevel";
 import { GlobalContext } from "@/context";
 import { toast } from "react-toastify";
 import { addNewProduct } from "@/services/product";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { initializeApp } from "firebase/app";
 import {
   getDownloadURL,
@@ -70,10 +70,22 @@ const initialFormData = {
 
 export default function AdminAddNewProduct() {
   const [formData, setFormData] = useState(initialFormData);
-  const { componentLevelLoader, setComponentLevelLoader } =
-    useContext(GlobalContext);
+  const {
+    componentLevelLoader,
+    setComponentLevelLoader,
+    currentUpdatedProduct,
+    setCurrentUpdatedProduct,
+  } = useContext(GlobalContext);
+
+  console.log(currentUpdatedProduct);
 
   const router = useRouter();
+
+  useEffect(() => {
+    if (currentUpdatedProduct !== null) {
+      setFormData(currentUpdatedProduct);
+    }
+  }, [currentUpdatedProduct]);
 
   async function handleImage(event) {
     const extractImageUrl = await helperForUploadingImageToFirebase(
@@ -107,7 +119,7 @@ export default function AdminAddNewProduct() {
   async function handleAddProduct() {
     setComponentLevelLoader({ loading: true, id: "" });
     const res = await addNewProduct(formData);
-    console.log(res);
+    // console.log(res);
 
     if (res.success) {
       setComponentLevelLoader({ loading: false, id: "" });
@@ -129,7 +141,7 @@ export default function AdminAddNewProduct() {
     }
   }
 
-  console.log(formData);
+  // console.log(formData);
 
   return (
     <div className="w-full mt-5 mr-0 mb-0 ml-0 relative">
