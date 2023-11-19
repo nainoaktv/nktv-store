@@ -4,11 +4,11 @@ import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
-export async function DELETE(requset) {
+export async function DELETE(request) {
   try {
     await dbConnection();
 
-    const { searchParams } = new URL(req.url);
+    const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 
     if (!id) {
