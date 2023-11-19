@@ -35,3 +35,21 @@ export const getAllAdminProducts = async () => {
     console.log(err);
   }
 };
+
+export const updateProduct = async (formData) => {
+  try {
+    const response = await fetch("/api/admin/update-product", {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${Cookies.get("token")}`,
+      },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
