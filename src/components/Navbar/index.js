@@ -58,15 +58,14 @@ export default function Navbar() {
   const pathName = usePathname();
   const router = useRouter();
 
-  console.log(pathName);
+  // console.log(pathName);
 
   useEffect(() => {
     if (
-      pathName !== "/admin-view/add-products" &&
+      pathName !== "/admin-view/add-product" &&
       currentUpdatedProduct !== null
-    ) {
+    )
       setCurrentUpdatedProduct(null);
-    }
   }, [pathName]);
 
   function handleLogout() {
