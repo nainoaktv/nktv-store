@@ -7,7 +7,7 @@ import Notification from "@/components/Notification";
 import ComponentLevelLoader from "@/components/Loader/componentlevel";
 import { GlobalContext } from "@/context";
 import { toast } from "react-toastify";
-import { addNewProduct } from "@/services/product";
+import { addNewProduct, updateProduct } from "@/services/product";
 import { useContext, useEffect, useState } from "react";
 import { initializeApp } from "firebase/app";
 import {
@@ -118,8 +118,11 @@ export default function AdminAddNewProduct() {
 
   async function handleAddProduct() {
     setComponentLevelLoader({ loading: true, id: "" });
-    const res = await addNewProduct(formData);
-    // console.log(res);
+    const res =
+      currentUpdatedProduct !== null
+        ? await updateProduct(formData)
+        : await addNewProduct(formData);
+    console.log(res);
 
     if (res.success) {
       setComponentLevelLoader({ loading: false, id: "" });
@@ -128,7 +131,6 @@ export default function AdminAddNewProduct() {
       });
 
       setFormData(initialFormData);
-
       setTimeout(() => {
         router.push("/admin-view/all-products");
       }, 1000);

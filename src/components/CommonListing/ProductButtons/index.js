@@ -19,6 +19,7 @@ export default function ProductButton({ item }) {
         onClick={() => {
           setCurrentUpdatedProduct(item);
           router.push("/admin-view/add-product");
+          console.log(item);
         }}
       >
         Update
