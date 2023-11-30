@@ -7,22 +7,22 @@ export const navOptions = [
   {
     id: "listing",
     label: "All Products",
-    path: "/products/listing/all-products",
+    path: "/product/listing/all-products",
   },
   {
     id: "listingMen",
     label: "Men",
-    path: "/products/listing/men",
+    path: "/product/listing/men",
   },
   {
     id: "listingWomen",
     label: "Women",
-    path: "/products/listing/women",
+    path: "/product/listing/women",
   },
   {
     id: "listingKids",
     label: "Kids",
-    path: "/products/listing/kids",
+    path: "/product/listing/kids",
   },
 ];
 
