@@ -76,6 +76,7 @@ export const productByCategory = async (id) => {
       `http://localhost:3000/api/admin/product-by-category?id=${id}`,
       {
         method: "GET",
+        cache: "no-cache",
       }
     );
 
