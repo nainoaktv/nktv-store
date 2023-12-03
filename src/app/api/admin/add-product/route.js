@@ -1,4 +1,5 @@
 import dbConnection from "@/database";
+import AuthUser from "@/middleware/AuthUser";
 import Product from "@/models/product";
 import Joi from "joi";
 import { NextResponse } from "next/server";
@@ -21,11 +22,11 @@ export async function POST(request) {
   try {
     await dbConnection();
 
-    // ! User is hard-coded and will need to be changed later.
-    // TODO: Change hard-coded user later.
-    const user = "admin";
+    const isAuthUser = await AuthUser(request);
 
-    if (user === "admin") {
+    console.log(isAuthUser, "Aulelei");
+
+    if (isAuthUser?.role === "admin") {
       const extractData = await request.json();
       const {
         productName,

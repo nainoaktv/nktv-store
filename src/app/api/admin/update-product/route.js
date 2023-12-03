@@ -1,4 +1,5 @@
 import dbConnection from "@/database";
+import AuthUser from "@/middleware/AuthUser";
 import Product from "@/models/product";
 import { NextResponse } from "next/server";
 
@@ -8,26 +9,12 @@ export async function PUT(request) {
   try {
     await dbConnection();
 
-    const extractData = await request.json();
+    const isAuthUser = await AuthUser(request);
 
-    const {
-      _id,
-      productName,
-      price,
-      description,
-      category,
-      sizes,
-      deliveryInfo,
-      priceDrop,
-      onSale,
-      imageUrl,
-    } = extractData;
-
-    const updatedProduct = await Product.findOneAndUpdate(
-      {
-        _id: _id,
-      },
-      {
+    if (isAuthUser?.role === "admin") {
+      const extractData = await request.json();
+      const {
+        _id,
         productName,
         price,
         description,
@@ -37,19 +24,41 @@ export async function PUT(request) {
         priceDrop,
         onSale,
         imageUrl,
-      },
-      { new: true }
-    );
+      } = extractData;
 
-    if (updatedProduct) {
-      return NextResponse.json({
-        success: true,
-        message: "Product updated successfully!",
-      });
+      const updatedProduct = await Product.findOneAndUpdate(
+        {
+          _id: _id,
+        },
+        {
+          productName,
+          price,
+          description,
+          category,
+          sizes,
+          deliveryInfo,
+          priceDrop,
+          onSale,
+          imageUrl,
+        },
+        { new: true }
+      );
+
+      if (updatedProduct) {
+        return NextResponse.json({
+          success: true,
+          message: "Product updated successfully!",
+        });
+      } else {
+        return NextResponse.json({
+          success: false,
+          message: "Failed to update product, please try again later.",
+        });
+      }
     } else {
       return NextResponse.json({
         success: false,
-        message: "Failed to update product, please try again later.",
+        message: "You are not Authorized to update!",
       });
     }
   } catch (err) {
