@@ -3,11 +3,20 @@
 import { Fragment, useContext, useEffect } from "react";
 import CommonModal from "../CommonModal";
 import { GlobalContext } from "@/context";
-import { getAllCartItems } from "@/services/cart";
+import { deleteCartItem, getAllCartItems } from "@/services/cart";
+import { toast } from "react-toastify";
+import ComponentLevelLoader from "../Loader/componentlevel";
 
 export default function CartModal() {
-  const { showCartModal, setShowCartModal, user, cartItems, setCartItems } =
-    useContext(GlobalContext);
+  const {
+    showCartModal,
+    setShowCartModal,
+    user,
+    cartItems,
+    setCartItems,
+    setComponentLevelLoader,
+    componentLevelLoader,
+  } = useContext(GlobalContext);
 
   async function extractAllCartItems() {
     const response = await getAllCartItems(user?._id);
@@ -23,6 +32,25 @@ export default function CartModal() {
   useEffect(() => {
     if (user !== null) extractAllCartItems();
   }, [user]);
+
+  async function handleDeleteCartItem(getCartItemID) {
+    setComponentLevelLoader({ loading: true, id: getCartItemID });
+    const response = await deleteCartItem(getCartItemID);
+
+    if (response.success) {
+      setComponentLevelLoader({ loading: false, id: "" });
+      toast.success(response.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+
+      extractAllCartItems();
+    } else {
+      setComponentLevelLoader({ loading: false, id: getCartItemID });
+      toast.error(response.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+  }
 
   return (
     <CommonModal
@@ -68,8 +96,21 @@ export default function CartModal() {
                     <button
                       type="button"
                       className="font-medium text-red-400 sm:order-2"
+                      onClick={() => handleDeleteCartItem(cartItem._id)}
                     >
-                      Remove
+                      {componentLevelLoader &&
+                      componentLevelLoader.loading &&
+                      componentLevelLoader.id === cartItem._id ? (
+                        <ComponentLevelLoader
+                          text={"Removing"}
+                          color={"#ffffff"}
+                          loading={
+                            componentLevelLoader && componentLevelLoader.loading
+                          }
+                        />
+                      ) : (
+                        "Remove"
+                      )}
                     </button>
                   </div>
                 </div>
