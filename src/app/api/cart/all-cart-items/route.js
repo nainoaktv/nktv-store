@@ -20,8 +20,8 @@ export async function GET(request) {
         });
       }
 
-      const extractAllCartItems = await Cart.find({ userId: id })
-        .populate("userId")
+      const extractAllCartItems = await Cart.find({ userID: id })
+        .populate("userID")
         .populate("productId");
 
       if (extractAllCartItems)

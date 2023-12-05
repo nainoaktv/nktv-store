@@ -1,12 +1,13 @@
 import dbConnection from "@/database";
 import AuthUser from "@/middleware/AuthUser";
 import Cart from "@/models/cart";
+import { log } from "console";
 import Joi from "joi";
 import { NextResponse } from "next/server";
 
 const AddToCart = Joi.object({
-  userId: Joi.string().required(),
-  productId: Joi.string().required(),
+  userID: Joi.string().required(),
+  productID: Joi.string().required(),
 });
 
 export const dynamic = "force-dynamic";
@@ -18,9 +19,9 @@ export async function POST(request) {
 
     if (isAuthUser) {
       const data = await request.json();
-      const { productId, userId } = data;
+      const { productID, userID } = data;
 
-      const { error } = AddToCart.validate({ userId, productId });
+      const { error } = AddToCart.validate({ userID, productID });
 
       if (error) {
         return NextResponse.json({
@@ -30,11 +31,13 @@ export async function POST(request) {
       }
 
       const cartItemExists = await Cart.find({
-        productId: productId,
-        userId: userId,
+        productID: productID,
+        userID: userID,
       });
 
-      if (cartItemExists) {
+      console.log(cartItemExists);
+
+      if (cartItemExists?.length > 0) {
         return NextResponse.json({
           success: false,
           message: "Product already in cart.",
@@ -42,6 +45,8 @@ export async function POST(request) {
       }
 
       const saveProductToCart = await Cart.create(data);
+
+      console.log(saveProductToCart);
 
       if (saveProductToCart) {
         return NextResponse.json({
