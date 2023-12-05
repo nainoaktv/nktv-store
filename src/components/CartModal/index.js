@@ -1,11 +1,22 @@
 "use client";
 
-import { Fragment, useContext } from "react";
+import { Fragment, useContext, useEffect } from "react";
 import CommonModal from "../CommonModal";
 import { GlobalContext } from "@/context";
+import { getAllCartItems } from "@/services/cart";
 
 export default function CartModal() {
-  const { showCartModal, setShowCartModal } = useContext(GlobalContext);
+  const { showCartModal, setShowCartModal, user } = useContext(GlobalContext);
+
+  async function extractAllCartItems() {
+    const response = await getAllCartItems(user?._id);
+
+    console.log(response);
+  }
+
+  useEffect(() => {
+    if (user !== null) extractAllCartItems();
+  }, [user]);
 
   return (
     <CommonModal
