@@ -15,6 +15,7 @@ export default function GlobalState({ children }) {
   const [user, setUser] = useState(null);
   const [currentUpdatedProduct, setCurrentUpdatedProduct] = useState(null);
   const [showCartModal, setShowCartModal] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
     console.log(Cookies.get("token"));
@@ -45,6 +46,8 @@ export default function GlobalState({ children }) {
         setCurrentUpdatedProduct,
         showCartModal,
         setShowCartModal,
+        cartItems,
+        setCartItems,
       }}
     >
       {children}
