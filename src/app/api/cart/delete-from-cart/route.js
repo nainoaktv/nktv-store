@@ -1,6 +1,7 @@
 import dbConnection from "@/database";
 import AuthUser from "@/middleware/AuthUser";
 import Cart from "@/models/cart";
+import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
@@ -30,7 +31,7 @@ export async function DELETE(request) {
       } else {
         return NextResponse.json({
           success: false,
-          message: "Failed to remove ffrom cart!",
+          message: "Failed to remove from cart!",
         });
       }
     } else {
