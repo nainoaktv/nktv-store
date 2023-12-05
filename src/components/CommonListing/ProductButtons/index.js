@@ -51,10 +51,12 @@ export default function ProductButton({ item }) {
       toast.success(response.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
+      setComponentLevelLoader({ loading: false, id: "" });
     } else {
       toast.error(response.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
+      setComponentLevelLoader({ loading: false, id: "" });
     }
 
     console.log(response);
@@ -95,7 +97,17 @@ export default function ProductButton({ item }) {
         onClick={() => handleAddToCart(item)}
         className="flex mt-1.5 justify-center px-5 py-3 bg-black text-xs font-medium uppercase text-white tracking-wide"
       >
-        Add to Cart
+        {componentLevelLoader &&
+        componentLevelLoader.loading &&
+        componentLevelLoader.id === item._id ? (
+          <ComponentLevelLoader
+            text={"Adding to Cart"}
+            color={"#ffffff"}
+            loading={componentLevelLoader && componentLevelLoader.loading}
+          />
+        ) : (
+          "Add to Cart"
+        )}
       </button>
     </>
   );
