@@ -8,9 +8,9 @@ export async function GET(request) {
   try {
     await dbConnection();
     const { searchParams } = new URL(request.url);
-    const productId = searchParams.get("id");
+    const productID = searchParams.get("id");
 
-    if (!productId) {
+    if (!productID) {
       return NextResponse.json({
         success: false,
         status: 400,
@@ -18,7 +18,7 @@ export async function GET(request) {
       });
     }
 
-    const getData = await Product.find({ _id: productId });
+    const getData = await Product.find({ _id: productID });
 
     if (getData && getData.length) {
       return NextResponse.json({
