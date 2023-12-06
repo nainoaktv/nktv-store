@@ -1,7 +1,13 @@
 "use client";
 
+import ComponentLevelLoader from "../Loader/componentlevel";
+
 // TODO: Add shipping info functionality and remove hard coded price
-export default function CommonCart({ cartItems = [] }) {
+export default function CommonCart({
+  cartItems = [],
+  handleDeleteCartItem,
+  componentLevelLoader,
+}) {
   return (
     <section className="h-screen bg-gray-100">
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
@@ -46,8 +52,24 @@ export default function CommonCart({ cartItems = [] }) {
                               <button
                                 type="button"
                                 className="font-medium text-red-400 sm:order-2"
+                                onClick={() =>
+                                  handleDeleteCartItem(cartItem._id)
+                                }
                               >
-                                Remove
+                                {componentLevelLoader &&
+                                componentLevelLoader.loading &&
+                                componentLevelLoader.id === cartItem._id ? (
+                                  <ComponentLevelLoader
+                                    text={"Removing"}
+                                    color={"#000000"}
+                                    loading={
+                                      componentLevelLoader &&
+                                      componentLevelLoader.loading
+                                    }
+                                  />
+                                ) : (
+                                  "Remove"
+                                )}
                               </button>
                             </div>
                           </div>
@@ -55,12 +77,16 @@ export default function CommonCart({ cartItems = [] }) {
                       </li>
                     ))}
                   </ul>
-                ) : null}
+                ) : (
+                  <h1 className="text-black uppercase font-bold text-lg">
+                    Your cart is currently empty...
+                  </h1>
+                )}
               </div>
               <div className="mt-6 border-t border-b py-2">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-400">Subtotal</p>
-                  <p className="text-lg text-gray-400 font-semibold">
+                  <p className="text-sm text-gray-500">Subtotal</p>
+                  <p className="text-lg text-gray-500 font-semibold">
                     $
                     {cartItems && cartItems.length
                       ? cartItems.reduce(
@@ -72,12 +98,12 @@ export default function CommonCart({ cartItems = [] }) {
                 </div>
                 <div className="flex items-center justify-between">
                   {/* Shipping Functionality */}
-                  <p className="text-sm text-gray-400">Shipping</p>
-                  <p className="text-lg text-gray-400 font-semibold">$0</p>
+                  <p className="text-sm text-gray-500">Shipping</p>
+                  <p className="text-lg text-gray-500 font-semibold">$0</p>
                 </div>
                 <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-400">Total</p>
-                  <p className="text-lg text-gray-400 font-semibold">
+                  <p className="text-sm text-black">Total</p>
+                  <p className="text-lg text-black font-semibold">
                     $
                     {cartItems && cartItems.length
                       ? cartItems.reduce(
@@ -88,7 +114,10 @@ export default function CommonCart({ cartItems = [] }) {
                   </p>
                 </div>
                 <div className="mt-5 text-center">
-                  <button className="group inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg text-white font-medium uppercase tracking-wide">
+                  <button
+                    disabled={cartItems && cartItems.length === 0}
+                    className="group inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg text-white font-medium uppercase tracking-wide disabled:opacity-50"
+                  >
                     Checkout
                   </button>
                 </div>
