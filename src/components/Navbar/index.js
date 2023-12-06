@@ -96,7 +96,12 @@ export default function Navbar() {
           <div className="flex md:order-2 gap-2">
             {!isAdminView && isAuthUser ? (
               <Fragment>
-                <button className="nav-btn">Account</button>
+                <button
+                  className="nav-btn"
+                  onClick={() => router.push("/account")}
+                >
+                  Account
+                </button>
                 <button
                   className="nav-btn"
                   onClick={() => setShowCartModal(true)}
