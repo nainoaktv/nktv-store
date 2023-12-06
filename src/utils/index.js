@@ -203,3 +203,41 @@ export const firebaseConfig = {
 };
 
 export const firebaseStorageUrl = "gs://nktv-store.appspot.com";
+
+export const addNewAddressFormControls = [
+  {
+    id: "fullName",
+    type: "input",
+    placeholder: "Enter Full Name",
+    label: "Full Name",
+    componentType: "input",
+  },
+  {
+    id: "address",
+    type: "input",
+    placeholder: "Enter Address",
+    label: "Address",
+    componentType: "input",
+  },
+  {
+    id: "city",
+    type: "input",
+    placeholder: "Enter the City",
+    label: "City",
+    componentType: "input",
+  },
+  {
+    id: "country",
+    type: "input",
+    placeholder: "Enter the Country",
+    label: "Country",
+    componentType: "input",
+  },
+  {
+    id: "postalCode",
+    type: "input",
+    placeholder: "Enter the Postal Code",
+    label: "Postal Code",
+    componentType: "input",
+  },
+];
