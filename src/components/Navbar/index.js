@@ -55,6 +55,7 @@ export default function Navbar() {
     currentUpdatedProduct,
     setCurrentUpdatedProduct,
     showCartModal,
+    setShowCartModal,
   } = useContext(GlobalContext);
 
   const pathName = usePathname();
@@ -96,7 +97,12 @@ export default function Navbar() {
             {!isAdminView && isAuthUser ? (
               <Fragment>
                 <button className="nav-btn">Account</button>
-                <button className="nav-btn">Cart</button>
+                <button
+                  className="nav-btn"
+                  onClick={() => setShowCartModal(true)}
+                >
+                  Cart
+                </button>
               </Fragment>
             ) : null}
             {user?.role === "admin" ? (
