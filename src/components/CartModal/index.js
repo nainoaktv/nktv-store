@@ -126,7 +126,10 @@ export default function CartModal() {
         <Fragment>
           <button
             type="button"
-            onClick={() => router.push("/cart")}
+            onClick={() => {
+              router.push("/cart");
+              setShowCartModal(false);
+            }}
             className="text-white mt-1.5 w-full inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide"
           >
             Go To Cart
@@ -139,7 +142,11 @@ export default function CartModal() {
             Checkout
           </button>
           <div className="mt-6 flex justify-center text-center text-sm text-gray-600">
-            <button type="button" className="font-medium text-gray">
+            <button
+              type="button"
+              onClick={() => router.push("/product/listing/all-products")}
+              className="font-medium text-gray"
+            >
               Continue Shopping
               <span aria-hidden="true"> &rarr;</span>
             </button>
