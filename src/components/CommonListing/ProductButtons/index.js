@@ -14,6 +14,8 @@ export default function ProductButton({ item }) {
     setComponentLevelLoader,
     componentLevelLoader,
     user,
+    showCartModal,
+    setShowCartModal,
   } = useContext(GlobalContext);
 
   const pathName = usePathname();
@@ -52,11 +54,13 @@ export default function ProductButton({ item }) {
         position: toast.POSITION.TOP_RIGHT,
       });
       setComponentLevelLoader({ loading: false, id: "" });
+      setShowCartModal(true);
     } else {
       toast.error(response.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
       setComponentLevelLoader({ loading: false, id: "" });
+      setShowCartModal(true);
     }
 
     console.log(response);
