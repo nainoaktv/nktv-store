@@ -6,6 +6,7 @@ import { GlobalContext } from "@/context";
 import { deleteCartItem, getAllCartItems } from "@/services/cart";
 import { toast } from "react-toastify";
 import ComponentLevelLoader from "../Loader/componentlevel";
+import { useRouter } from "next/navigation";
 
 export default function CartModal() {
   const {
@@ -17,6 +18,8 @@ export default function CartModal() {
     setComponentLevelLoader,
     componentLevelLoader,
   } = useContext(GlobalContext);
+
+  const router = useRouter();
 
   async function extractAllCartItems() {
     const response = await getAllCartItems(user?._id);
@@ -103,7 +106,7 @@ export default function CartModal() {
                       componentLevelLoader.id === cartItem._id ? (
                         <ComponentLevelLoader
                           text={"Removing"}
-                          color={"#ffffff"}
+                          color={"#000000"}
                           loading={
                             componentLevelLoader && componentLevelLoader.loading
                           }
@@ -123,6 +126,7 @@ export default function CartModal() {
         <Fragment>
           <button
             type="button"
+            onClick={() => router.push("/cart")}
             className="text-white mt-1.5 w-full inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide"
           >
             Go To Cart
