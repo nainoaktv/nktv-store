@@ -1,22 +1,39 @@
 "use client";
 
 import InputComponent from "@/components/FormElements/InputComponent";
+import ComponentLevelLoader from "@/components/Loader/componentlevel";
 import Notification from "@/components/Notification";
 import { GlobalContext } from "@/context";
-import { addNewAddress } from "@/services/address";
+import { addNewAddress, getAllAddresses } from "@/services/address";
 import { addNewAddressFormControls } from "@/utils";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 // TODO: Render random user image. Line 11.
 
 export default function Account() {
-  const { user, addresses, setAddresses, addressFormData, setAddressFormData } =
-    useContext(GlobalContext);
+  const {
+    user,
+    addresses,
+    setAddresses,
+    addressFormData,
+    setAddressFormData,
+    componentLevelLoader,
+    setComponentLevelLoader,
+  } = useContext(GlobalContext);
 
   const [showAddressForm, setShowAddressForm] = useState(false);
 
+  async function extractAllAddresses() {
+    const response = await getAllAddresses(user?._id);
+
+    if (response.success) {
+      setAddresses(response.data);
+    }
+  }
+
   async function handleAddOrUpdateAddress() {
+    setComponentLevelLoader({ loading: true, id: "" });
     const response = await addNewAddress({
       ...addressFormData,
       userID: user?._id,
@@ -25,6 +42,7 @@ export default function Account() {
     console.log(response);
 
     if (response.success) {
+      setComponentLevelLoader({ loading: false, id: "" });
       toast.success(response.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
@@ -36,6 +54,7 @@ export default function Account() {
         address: "",
       });
     } else {
+      setComponentLevelLoader({ loading: false, id: "" });
       toast.error(response.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
@@ -48,6 +67,10 @@ export default function Account() {
       });
     }
   }
+
+  useEffect(() => {
+    if (user !== null) extractAllAddresses();
+  }, [user]);
 
   return (
     <section>
@@ -123,7 +146,17 @@ export default function Account() {
                   onClick={handleAddOrUpdateAddress}
                   className="text-white mt-5 hover:bg-gray-800 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide"
                 >
-                  Save
+                  {componentLevelLoader && componentLevelLoader.loading ? (
+                    <ComponentLevelLoader
+                      text={"Saving Address"}
+                      color={"#ffffff"}
+                      loading={
+                        componentLevelLoader && componentLevelLoader.loading
+                      }
+                    />
+                  ) : (
+                    "Save"
+                  )}
                 </button>
               </div>
             ) : null}
