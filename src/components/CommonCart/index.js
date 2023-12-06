@@ -1,7 +1,7 @@
 "use client";
 
 // TODO: Add shipping info functionality and remove hard coded price
-export default function CommonCart(cartItems = []) {
+export default function CommonCart({ cartItems = [] }) {
   return (
     <section className="h-screen bg-gray-100">
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
@@ -24,7 +24,7 @@ export default function CommonCart(cartItems = []) {
                               cartItem.productID.imageUrl
                             }
                             alt="Product Image"
-                            className="h-24 w-25 max-w-full rounded-lg object-cover"
+                            className="h-20 w-24 max-w-full rounded-lg object-cover"
                           />
                         </div>
                         <div className="flex flex-1 flex-col justify-between">
