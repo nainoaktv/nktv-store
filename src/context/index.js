@@ -32,7 +32,9 @@ export default function GlobalState({ children }) {
     if (Cookies.get("token") !== undefined) {
       setIsAuthUser(true);
       const userData = JSON.parse(localStorage.getItem("user")) || {};
+      const getCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
       setUser(userData);
+      setCartItems(getCartItems);
     } else {
       setIsAuthUser(false);
     }
