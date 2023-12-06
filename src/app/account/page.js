@@ -1,9 +1,12 @@
 "use client";
 
 import InputComponent from "@/components/FormElements/InputComponent";
+import Notification from "@/components/Notification";
 import { GlobalContext } from "@/context";
+import { addNewAddress } from "@/services/address";
 import { addNewAddressFormControls } from "@/utils";
 import { useContext, useState } from "react";
+import { toast } from "react-toastify";
 
 // TODO: Render random user image. Line 11.
 
@@ -12,6 +15,39 @@ export default function Account() {
     useContext(GlobalContext);
 
   const [showAddressForm, setShowAddressForm] = useState(false);
+
+  async function handleAddOrUpdateAddress() {
+    const response = await addNewAddress({
+      ...addressFormData,
+      userID: user?._id,
+    });
+
+    console.log(response);
+
+    if (response.success) {
+      toast.success(response.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      setAddressFormData({
+        fullName: "",
+        city: "",
+        country: "",
+        postalCode: "",
+        address: "",
+      });
+    } else {
+      toast.error(response.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      setAddressFormData({
+        fullName: "",
+        city: "",
+        country: "",
+        postalCode: "",
+        address: "",
+      });
+    }
+  }
 
   return (
     <section>
@@ -83,7 +119,10 @@ export default function Account() {
                     />
                   ))}
                 </div>
-                <button className="text-white mt-5 hover:bg-gray-800 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide">
+                <button
+                  onClick={handleAddOrUpdateAddress}
+                  className="text-white mt-5 hover:bg-gray-800 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide"
+                >
                   Save
                 </button>
               </div>
@@ -91,6 +130,7 @@ export default function Account() {
           </div>
         </div>
       </div>
+      <Notification />
     </section>
   );
 }
