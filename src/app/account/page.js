@@ -4,7 +4,11 @@ import InputComponent from "@/components/FormElements/InputComponent";
 import ComponentLevelLoader from "@/components/Loader/componentlevel";
 import Notification from "@/components/Notification";
 import { GlobalContext } from "@/context";
-import { addNewAddress, getAllAddresses } from "@/services/address";
+import {
+  addNewAddress,
+  getAllAddresses,
+  updateAddress,
+} from "@/services/address";
 import { addNewAddressFormControls } from "@/utils";
 import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -23,6 +27,7 @@ export default function Account() {
   } = useContext(GlobalContext);
 
   const [showAddressForm, setShowAddressForm] = useState(false);
+  const [currentEditedAddressId, setCurrentEditedAddressId] = useState(null);
 
   async function extractAllAddresses() {
     const response = await getAllAddresses(user?._id);
@@ -34,10 +39,16 @@ export default function Account() {
 
   async function handleAddOrUpdateAddress() {
     setComponentLevelLoader({ loading: true, id: "" });
-    const response = await addNewAddress({
-      ...addressFormData,
-      userID: user?._id,
-    });
+    const response =
+      currentEditedAddressId !== null
+        ? await updateAddress({
+            ...addressFormData,
+            _id: currentEditedAddressId,
+          })
+        : await addNewAddress({
+            ...addressFormData,
+            userID: user?._id,
+          });
 
     console.log(response);
 
@@ -53,6 +64,8 @@ export default function Account() {
         postalCode: "",
         address: "",
       });
+      extractAllAddresses();
+      setCurrentEditedAddressId(null);
     } else {
       setComponentLevelLoader({ loading: false, id: "" });
       toast.error(response.message, {
@@ -66,6 +79,18 @@ export default function Account() {
         address: "",
       });
     }
+  }
+
+  function handleUpdateAddress(getCurrentAddress) {
+    setShowAddressForm(true);
+    setAddressFormData({
+      fullName: getCurrentAddress.fullName,
+      city: getCurrentAddress.city,
+      country: getCurrentAddress.country,
+      postalCode: getCurrentAddress.postalCode,
+      address: getCurrentAddress.address,
+    });
+    setCurrentEditedAddressId(getCurrentAddress._id);
   }
 
   useEffect(() => {
@@ -94,16 +119,19 @@ export default function Account() {
               <h1 className="font-bold uppercase tracking-wide">
                 Your Addresses:
               </h1>
-              <div className="mt-4">
+              <div className="mt-4 flex flex-col gap-4">
                 {addresses && addresses.length ? (
                   addresses.map((item) => (
-                    <div className="border p-6" key={item._id}>
+                    <div className="border border-black p-6" key={item._id}>
                       <p>Name: {item.fullName}</p>
                       <p>Address: {item.address}</p>
                       <p>City: {item.city}</p>
                       <p>Country: {item.country}</p>
                       <p>Postal Code: {item.postalCode}</p>
-                      <button className="text-white mt-1.5 hover:bg-gray-800 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide">
+                      <button
+                        onClick={() => handleUpdateAddress(item)}
+                        className="text-white mt-1.5 mr-5 hover:bg-gray-800 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide"
+                      >
                         Update
                       </button>
                       <button className="text-white mt-1.5 hover:bg-gray-800 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide">
