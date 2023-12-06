@@ -24,7 +24,7 @@ export async function DELETE(request) {
     if (isAuthUser) {
       const deleteAddress = await Address.findByIdAndDelete(id);
 
-      if (getAllAddresses) {
+      if (deleteAddress) {
         return NextResponse.json({
           success: true,
           message: "Address has been deleted successfully.",
