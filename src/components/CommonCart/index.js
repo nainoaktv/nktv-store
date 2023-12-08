@@ -9,7 +9,7 @@ export default function CommonCart({
   componentLevelLoader,
 }) {
   return (
-    <section className="h-screen bg-gray-100">
+    <section className="h-screen">
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mx-auto mt-8 max-w-screen-xl px-4 sm:px-6 lg:px-0">
           <div className="bg-white shadow">
