@@ -4,6 +4,15 @@ import { createContext, useEffect, useState } from "react";
 
 export const GlobalContext = createContext(null);
 
+const initialCheckoutFormData = {
+  shippingAddress: {},
+  paymentMethod: "",
+  totalPrice: 0,
+  isPaid: false,
+  paidAt: new Date(),
+  isProcessing: true,
+};
+
 export default function GlobalState({ children }) {
   const [showNavModal, setShowNavModal] = useState(false);
   const [pageLevelLoader, setPageLevelLoader] = useState(false);
@@ -25,6 +34,9 @@ export default function GlobalState({ children }) {
     postalCode: "",
     address: "",
   });
+  const [checkoutFormData, setCheckoutFormData] = useState(
+    initialCheckoutFormData
+  );
 
   useEffect(() => {
     console.log(Cookies.get("token"));
@@ -65,6 +77,8 @@ export default function GlobalState({ children }) {
         setAddressFormData,
         addresses,
         setAddresses,
+        checkoutFormData,
+        setCheckoutFormData,
       }}
     >
       {children}
