@@ -2,8 +2,12 @@
 
 import { GlobalContext } from "@/context";
 import { getAllAddresses } from "@/services/address";
+import { callStripeSession } from "@/services/stripe";
+import { loadStripe } from "@stripe/stripe-js";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
+
+require("dotenv").config();
 
 export default function Checkout() {
   const {
@@ -16,8 +20,12 @@ export default function Checkout() {
   } = useContext(GlobalContext);
 
   const [selectedAddress, setSelectedAddress] = useState(null);
+  const [isOrderProcessing, setIsOrderProcessing] = useState(false);
 
   const router = useRouter();
+
+  const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
+  const stripePromise = loadStripe(publishableKey);
 
   async function getAddresses() {
     const response = await getAllAddresses(user?._id);
@@ -48,12 +56,39 @@ export default function Checkout() {
       shippingAddress: {
         ...checkoutFormData.shippingAddress,
         fullName: getAddress.fullName,
-        address: getAddress.address,
         city: getAddress.city,
         country: getAddress.country,
         postalCode: getAddress.postalCode,
+        address: getAddress.address,
       },
     });
+  }
+
+  async function handleCheckout() {
+    const stripe = await stripePromise;
+
+    const createLineItems = cartItems.map((item) => ({
+      price_data: {
+        currency: "usd",
+        product_data: {
+          images: [item.productID.imageUrl],
+          name: item.productID.productName,
+        },
+        unit_amount: item.productID.price * 100,
+      },
+      quantity: 1,
+    }));
+
+    const response = await callStripeSession(createLineItems);
+    setIsOrderProcessing(true);
+    localStorage.setItem("stripe", true);
+    localStorage.setItem("checkoutFormData", JSON.stringify(checkoutFormData));
+
+    const { error } = await stripe.redirectToCheckout({
+      sessionId: response.id,
+    });
+
+    console.log(error);
   }
 
   console.log(checkoutFormData, "CFD");
@@ -161,6 +196,7 @@ export default function Checkout() {
           {/* Checkout BTN */}
           <div className="pb-10">
             <button
+              onClick={handleCheckout}
               disabled={
                 (cartItems && cartItems.length === 0) ||
                 Object.keys(checkoutFormData.shippingAddress).length === 0
