@@ -80,6 +80,17 @@ export default function GlobalState({ children }) {
       router.push("/login");
   }, [user, pathName]);
 
+  useEffect(() => {
+    if (
+      user !== null &&
+      user &&
+      Object.keys(user).length > 0 &&
+      user?.role !== "admin" &&
+      protectedAdminRoutes.indexOf(pathName) > -1
+    )
+      router.push("/unauthorized-page");
+  }, [user, pathName]);
+
   return (
     <GlobalContext.Provider
       value={{
