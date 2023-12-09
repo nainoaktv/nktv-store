@@ -11,7 +11,7 @@ export const createNewOrder = async (formData) => {
       body: JSON.stringify(formData),
     });
 
-    const data = response.json();
+    const data = await response.json();
     return data;
   } catch (err) {
     console.log(err);
@@ -27,7 +27,7 @@ export const getAllOrdersForUser = async (id) => {
       },
     });
 
-    const data = response.json();
+    const data = await response.json();
     return data;
   } catch (err) {
     console.log(err);
@@ -43,7 +43,7 @@ export const getOrderDetails = async (id) => {
       },
     });
 
-    const data = response.json();
+    const data = await response.json();
     return data;
   } catch (err) {
     console.log(err);
