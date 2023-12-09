@@ -2,10 +2,13 @@
 
 import { GlobalContext } from "@/context";
 import { getAllAddresses } from "@/services/address";
+import { createNewOrder } from "@/services/order";
 import { callStripeSession } from "@/services/stripe";
 import { loadStripe } from "@stripe/stripe-js";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
+import { PulseLoader } from "react-spinners";
+import { toast } from "react-toastify";
 
 require("dotenv").config();
 
@@ -21,8 +24,10 @@ export default function Checkout() {
 
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [isOrderProcessing, setIsOrderProcessing] = useState(false);
+  const [orderSuccess, setOrderSuccess] = useState(false);
 
   const router = useRouter();
+  const params = useSearchParams();
 
   const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
   const stripePromise = loadStripe(publishableKey);
@@ -39,6 +44,60 @@ export default function Checkout() {
     if (user !== null) getAddresses();
   }, [user]);
 
+  useEffect(() => {
+    async function createFinalOrder() {
+      const isStripe = JSON.parse(localStorage.getItem("stripe"));
+
+      if (
+        isStripe &&
+        params.get("status") === "success" &&
+        cartItems &&
+        cartItems.length > 0
+      ) {
+        setIsOrderProcessing(true);
+        const getCheckoutFormData = JSON.parse(
+          localStorage.getItem("checkoutFormData")
+        );
+
+        const createFinalCheckoutFormData = {
+          user: user?._id,
+          shippingAddress: getCheckoutFormData.shippingAddress,
+          orderItems: cartItems.map((item) => ({
+            qty: 1,
+            product: item.productID,
+          })),
+          paymentMethod: "Stripe",
+          totalPrice: cartItems.reduce(
+            (total, item) => item.productID.price + total,
+            0
+          ),
+          isPaid: true,
+          isProcessing: true,
+          paidAt: new Date(),
+        };
+
+        const response = await createNewOrder(createFinalCheckoutFormData);
+
+        if (response.success) {
+          setIsOrderProcessing(false);
+          setOrderSuccess(true);
+          toast.success(response.message, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        } else {
+          setIsOrderProcessing(false);
+          setOrderSuccess(false);
+          toast.error(response.message, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        }
+      }
+    }
+
+    createFinalOrder();
+  }, [params.get("status"), cartItems]);
+
+  // * handleSelectedAddress
   function handleSelectedAddress(getAddress) {
     if (getAddress._id === selectedAddress) {
       setSelectedAddress(null);
@@ -64,6 +123,7 @@ export default function Checkout() {
     });
   }
 
+  // * handleCheckout
   async function handleCheckout() {
     const stripe = await stripePromise;
 
@@ -92,6 +152,20 @@ export default function Checkout() {
   }
 
   console.log(checkoutFormData, "CFD");
+
+  // * isOrderProcessing
+  if (isOrderProcessing) {
+    return (
+      <div className="w-full min-h-screen flex justify-center items-center">
+        <PulseLoader
+          color={"#ffffff"}
+          loading={isOrderProcessing}
+          size={30}
+          data-testid="loader"
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-4 sm:px-10 lg:px-20 xl:px-32">
