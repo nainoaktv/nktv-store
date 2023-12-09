@@ -1,5 +1,6 @@
 "use client";
 
+import Notification from "@/components/Notification";
 import { GlobalContext } from "@/context";
 import { getAllAddresses } from "@/services/address";
 import { createNewOrder } from "@/services/order";
@@ -153,6 +154,15 @@ export default function Checkout() {
 
   console.log(checkoutFormData, "CFD");
 
+  useEffect(() => {
+    if (orderSuccess) {
+      setTimeout(() => {
+        // setOrderSuccess(false);
+        router.push("/orders");
+      }, [2500]);
+    }
+  }, [orderSuccess]);
+
   // * orderSuccess
   if (orderSuccess) {
     return (
@@ -162,11 +172,9 @@ export default function Checkout() {
             <div className="bg-white shadow">
               <div className="px-4 py-6 sm:px-8 sm:py-10 flex flex-col gap-5">
                 <h1 className="font-bold text-lg uppercase text-black">
-                  Your payment is successful
+                  Your payment is successful and you will be redirected to
+                  orders page in 3 seconds.
                 </h1>
-                <button className="text-white mt-1.5 mr-5 w-full hover:bg-gray-800 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide">
-                  View your orders
-                </button>
               </div>
             </div>
           </div>
@@ -304,6 +312,7 @@ export default function Checkout() {
           </div>
         </div>
       </div>
+      <Notification />
     </div>
   );
 }
