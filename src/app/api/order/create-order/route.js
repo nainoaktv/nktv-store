@@ -12,7 +12,7 @@ export async function POST(request) {
     const isAuthUser = await AuthUser(request);
 
     if (isAuthUser) {
-      const data = request.json();
+      const data = await request.json();
       const { user } = data;
 
       const saveNewOrder = await Order.create(data);
@@ -32,7 +32,7 @@ export async function POST(request) {
       });
     }
   } catch (err) {
-    console.log(err);
+    console.log(err, "create order err");
     return NextResponse.json({
       success: false,
       message: "Something went wrong! Please try again later.",
