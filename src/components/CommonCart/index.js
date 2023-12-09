@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import ComponentLevelLoader from "../Loader/componentlevel";
 
 // TODO: Add shipping info functionality and remove hard coded price
@@ -8,6 +9,7 @@ export default function CommonCart({
   handleDeleteCartItem,
   componentLevelLoader,
 }) {
+  const router = useRouter();
   return (
     <section className="h-screen">
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
@@ -116,6 +118,7 @@ export default function CommonCart({
                 <div className="mt-5 text-center">
                   <button
                     disabled={cartItems && cartItems.length === 0}
+                    onClick={() => router.push("checkout")}
                     className="group inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg text-white font-medium uppercase tracking-wide disabled:opacity-50"
                   >
                     Checkout
