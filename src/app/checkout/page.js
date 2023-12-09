@@ -153,6 +153,28 @@ export default function Checkout() {
 
   console.log(checkoutFormData, "CFD");
 
+  // * orderSuccess
+  if (orderSuccess) {
+    return (
+      <section className="h-screen bg-black">
+        <div className="mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto mt-8 max-w-screen-xl px-4 sm:px-6 lg:px-8">
+            <div className="bg-white shadow">
+              <div className="px-4 py-6 sm:px-8 sm:py-10 flex flex-col gap-5">
+                <h1 className="font-bold text-lg uppercase text-black">
+                  Your payment is successful
+                </h1>
+                <button className="text-white mt-1.5 mr-5 w-full hover:bg-gray-800 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide">
+                  View your orders
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   // * isOrderProcessing
   if (isOrderProcessing) {
     return (
