@@ -54,6 +54,7 @@ export default function GlobalState({ children }) {
   const [checkoutFormData, setCheckoutFormData] = useState(
     initialCheckoutFormData
   );
+  const [allOrdersForUser, setAllOrdersForUser] = useState([]);
 
   const router = useRouter();
   const pathName = usePathname();
@@ -67,7 +68,7 @@ export default function GlobalState({ children }) {
       setCartItems(getCartItems);
     } else {
       setIsAuthUser(false);
-      setUser({}); // TODO: Set authenticated user
+      setUser({});
     }
   }, [Cookies]);
 
@@ -118,6 +119,8 @@ export default function GlobalState({ children }) {
         setAddresses,
         checkoutFormData,
         setCheckoutFormData,
+        allOrdersForUser,
+        setAllOrdersForUser,
       }}
     >
       {children}
