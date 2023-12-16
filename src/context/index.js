@@ -48,6 +48,7 @@ export default function GlobalState({ children }) {
   );
   const [allOrdersForUser, setAllOrdersForUser] = useState([]);
   const [orderDetails, setOrderDetails] = useState(null);
+  const [allOrdersForAdmin, setAllOrdersForAdmin] = useState([]);
 
   const router = useRouter();
   const pathName = usePathname();
@@ -117,6 +118,8 @@ export default function GlobalState({ children }) {
         setAllOrdersForUser,
         orderDetails,
         setOrderDetails,
+        allOrdersForAdmin,
+        setAllOrdersForAdmin,
       }}
     >
       {children}
