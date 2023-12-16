@@ -62,6 +62,9 @@ export default function Orders() {
         <div className="mt-8 mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
           <div>
             <div className="px-4 py-6 sm:px-8 sm:py-10">
+              <h1 className="max-w-2xl mb-4 text-2xl font-extrabold tracking-tight leading-none md:text-2xl xl:text-4xl border-b border-gray-200">
+                Your Orders
+              </h1>
               <div className="flow-root">
                 {allOrdersForUser && allOrdersForUser.length ? (
                   <ul className="flex flex-col gap-4">

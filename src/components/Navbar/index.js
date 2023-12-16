@@ -89,8 +89,8 @@ export default function Navbar() {
             onClick={() => router.push("/")}
             className="flex items-center cursor-pointer"
           >
-            <span className="self-center text-2xl font-semibold whitespace-nowrap text-black">
-              NKTV Store
+            <span className="font-mono font-bold tracking-widest self-center text-2xl whitespace-nowrap text-black">
+              Fitaku
             </span>
           </div>
           <div className="flex md:order-2 gap-2">

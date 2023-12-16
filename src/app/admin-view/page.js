@@ -75,6 +75,9 @@ export default function AdminView() {
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div>
           <div className="px-4 py-6 sm:px-8 sm:py-10">
+            <h1 className="max-w-2xl mb-4 text-2xl font-extrabold tracking-tight leading-none md:text-4xl xl:text-5xl border-b border-gray-200">
+              All User Orders
+            </h1>
             <div className="flow-root">
               {allOrdersForAdmin && allOrdersForAdmin.length ? (
                 <ul className="flex flex-col gap-4">
