@@ -105,7 +105,7 @@ export default function Orders() {
                               : "Order is delivered!"}
                           </button>
                           <button
-                            onClick={() => router.push("/orders")}
+                            onClick={() => router.push(`/orders/${order._id}`)}
                             className="text-white mt-1.5 mr-5 hover:bg-gray-8 00 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide"
                           >
                             View Order Details
