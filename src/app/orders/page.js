@@ -3,6 +3,7 @@
 import Notification from "@/components/Notification";
 import { GlobalContext } from "@/context";
 import { getAllOrdersForUser } from "@/services/order";
+import { useRouter } from "next/navigation";
 import { useContext, useEffect } from "react";
 import { PulseLoader } from "react-spinners";
 import { toast } from "react-toastify";
@@ -15,6 +16,8 @@ export default function Orders() {
     allOrdersForUser,
     setAllOrdersForUser,
   } = useContext(GlobalContext);
+
+  const router = useRouter();
 
   async function extractAllOrders() {
     setPageLevelLoader(true);
@@ -101,7 +104,10 @@ export default function Orders() {
                               ? "Order is processing..."
                               : "Order is delivered!"}
                           </button>
-                          <button className="text-white mt-1.5 mr-5 hover:bg-gray-8 00 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide">
+                          <button
+                            onClick={() => router.push("/orders")}
+                            className="text-white mt-1.5 mr-5 hover:bg-gray-8 00 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide"
+                          >
                             View Order Details
                           </button>
                         </div>
