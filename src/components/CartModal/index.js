@@ -25,8 +25,27 @@ export default function CartModal() {
     const response = await getAllCartItems(user?._id);
 
     if (response.success) {
-      setCartItems(response.data);
-      localStorage.setItem("cartItems", JSON.stringify(response.data));
+      const updatedData =
+        response.data && response.data.length
+          ? response.data.map((item) => ({
+              ...item,
+              productID: {
+                ...item.productID,
+                price:
+                  item.productID.onSale === "yes"
+                    ? parseInt(
+                        (
+                          item.productID.price -
+                          item.productID.price *
+                            (item.productID.priceDrop / 100)
+                        ).toFixed(2)
+                      )
+                    : item.productID.price,
+              },
+            }))
+          : [];
+      setCartItems(updatedData);
+      localStorage.setItem("cartItems", JSON.stringify(updatedData));
     }
 
     console.log(response);

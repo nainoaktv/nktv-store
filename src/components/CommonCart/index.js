@@ -118,7 +118,7 @@ export default function CommonCart({
                 <div className="mt-5 text-center">
                   <button
                     disabled={cartItems && cartItems.length === 0}
-                    onClick={() => router.push("checkout")}
+                    onClick={() => router.push("/checkout")}
                     className="group inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg text-white font-medium uppercase tracking-wide disabled:opacity-50"
                   >
                     Checkout
