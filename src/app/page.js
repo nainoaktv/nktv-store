@@ -62,7 +62,10 @@ export default function Home() {
                     Winter Sale Collection
                   </h2>
                 </div>
-                <button className="mt-1.5 inline-block bg-black hover:bg-gray-800 text-white px-5 py-3 text-xs font-medium uppercase tracking-wide">
+                <button
+                  onClick={() => router.push("/product/listing/all-products")}
+                  className="mt-1.5 inline-block bg-black hover:bg-gray-800 text-white px-5 py-3 text-xs font-medium uppercase tracking-wide"
+                >
                   Shop All
                 </button>
               </div>
