@@ -233,7 +233,7 @@ export default function Checkout() {
       {/* Shipping Address Details */}
       <div className="px-4 pt-8 text-black">
         <div className="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0">
-          <p className="text-xl font-medium">Shipping Address Details</p>
+          <p className="text-xl font-semibold">Shipping Address Details</p>
           <p className="text-gray-400 font-bold">Select Address Below</p>
           <div className="w-full mt-6 mr-0 mb-0 ml-0 pb-3 space-y-6">
             {addresses && addresses.length ? (
@@ -241,15 +241,15 @@ export default function Checkout() {
                 <div
                   onClick={() => handleSelectedAddress(item)}
                   key={item._id}
-                  className={`border border-gray-400 p-6 ${
+                  className={`border border-gray-400 p-6 font-mono ${
                     item._id === selectedAddress ? "border-gray-900" : ""
                   }`}
                 >
                   <p>Name: {item.fullName}</p>
-                  <p>Address: {item.address}</p>
-                  <p>City: {item.city}</p>
-                  <p>Country: {item.country}</p>
-                  <p>Postal Code: {item.postalCode}</p>
+                  <p>
+                    Address: {item.address}, {item.city} {item.postalCode}
+                  </p>
+                  <p>{item.country}</p>
                   <button className="text-white mt-1.5 mr-5 hover:bg-gray-800 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide">
                     {item._id === selectedAddress
                       ? "Selected Address"
