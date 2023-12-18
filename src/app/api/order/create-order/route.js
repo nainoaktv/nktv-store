@@ -32,7 +32,7 @@ export async function POST(request) {
       });
     }
   } catch (err) {
-    console.log(err, "create order err");
+    console.log(err);
     return NextResponse.json({
       success: false,
       message: "Something went wrong! Please try again later.",

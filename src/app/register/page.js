@@ -11,8 +11,6 @@ import { useRouter } from "next/navigation";
 import { useContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
-// const isRegistered = false;
-
 const initialFormData = {
   name: "",
   email: "",
@@ -28,8 +26,6 @@ export default function Register() {
 
   const router = useRouter();
 
-  console.log(formData);
-
   function formValid() {
     return formData &&
       formData.name &&
@@ -41,8 +37,6 @@ export default function Register() {
       ? true
       : false;
   }
-
-  console.log(formValid());
 
   async function handleRegister() {
     setPageLevelLoader(true);
@@ -62,7 +56,6 @@ export default function Register() {
       setPageLevelLoader(false);
       setFormData(initialFormData);
     }
-    console.log(data);
   }
 
   useEffect(() => {

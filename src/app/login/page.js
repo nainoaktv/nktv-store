@@ -30,8 +30,6 @@ export default function Login() {
 
   const router = useRouter();
 
-  console.log(formData);
-
   function loginValid() {
     return formData &&
       formData.email &&
@@ -64,8 +62,6 @@ export default function Login() {
       setComponentLevelLoader({ loading: false, id: "" });
     }
   }
-
-  // console.log(isAuthUser, user);
 
   useEffect(() => {
     if (isAuthUser) router.push("/");

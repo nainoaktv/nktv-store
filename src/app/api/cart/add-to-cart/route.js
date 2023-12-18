@@ -35,8 +35,6 @@ export async function POST(request) {
         userID: userID,
       });
 
-      // console.log(cartItemExists);
-
       if (cartItemExists?.length > 0) {
         return NextResponse.json({
           success: false,
@@ -45,8 +43,6 @@ export async function POST(request) {
       }
 
       const saveProductToCart = await Cart.create(data);
-
-      // console.log(saveProductToCart);
 
       if (saveProductToCart) {
         return NextResponse.json({

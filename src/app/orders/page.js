@@ -41,8 +41,6 @@ export default function Orders() {
     if (user !== null) extractAllOrders();
   }, [user]);
 
-  console.log(allOrdersForUser);
-
   if (pageLevelLoader) {
     return (
       <div className="w-full min-h-screen flex justify-center items-center">

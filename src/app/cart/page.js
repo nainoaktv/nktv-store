@@ -46,8 +46,6 @@ export default function Cart() {
       setPageLevelLoader(false);
       localStorage.setItem("cartItems", JSON.stringify(response.data));
     }
-
-    console.log(response);
   }
 
   useEffect(() => {

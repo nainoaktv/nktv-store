@@ -21,8 +21,6 @@ export default function AdminView() {
     setPageLevelLoader(true);
     const response = await getAllOrdersForAdmin();
 
-    console.log(response);
-
     if (response.success) {
       setPageLevelLoader(false);
       setAllOrdersForAdmin(
@@ -54,8 +52,6 @@ export default function AdminView() {
   useEffect(() => {
     if (user !== null) extractAllOrdersForAdmin();
   }, [user]);
-
-  console.log(allOrdersForAdmin);
 
   if (pageLevelLoader) {
     return (

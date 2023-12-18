@@ -59,8 +59,6 @@ export default function Account() {
             userID: user?._id,
           });
 
-    console.log(response);
-
     if (response.success) {
       setComponentLevelLoader({ loading: false, id: "" });
       toast.success(response.message, {

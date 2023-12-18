@@ -152,8 +152,6 @@ export default function Checkout() {
     console.log(error);
   }
 
-  console.log(checkoutFormData, "CFD");
-
   useEffect(() => {
     if (orderSuccess) {
       setTimeout(() => {

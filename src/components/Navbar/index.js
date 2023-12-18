@@ -61,8 +61,6 @@ export default function Navbar() {
   const pathName = usePathname();
   const router = useRouter();
 
-  // console.log(pathName);
-
   useEffect(() => {
     if (
       pathName !== "/admin-view/add-product" &&

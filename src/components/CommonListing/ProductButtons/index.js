@@ -62,8 +62,6 @@ export default function ProductButton({ item }) {
       setComponentLevelLoader({ loading: false, id: "" });
       setShowCartModal(true);
     }
-
-    // console.log(response);
   }
 
   return isAdminView ? (
@@ -73,7 +71,6 @@ export default function ProductButton({ item }) {
         onClick={() => {
           setCurrentUpdatedProduct(item);
           router.push("/admin-view/add-product");
-          console.log(item);
         }}
       >
         Update

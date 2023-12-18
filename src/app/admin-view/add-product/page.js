@@ -77,8 +77,6 @@ export default function AdminAddNewProduct() {
     setCurrentUpdatedProduct,
   } = useContext(GlobalContext);
 
-  console.log(currentUpdatedProduct);
-
   const router = useRouter();
 
   useEffect(() => {
@@ -122,7 +120,6 @@ export default function AdminAddNewProduct() {
       currentUpdatedProduct !== null
         ? await updateProduct(formData)
         : await addNewProduct(formData);
-    console.log(res);
 
     if (res.success) {
       setComponentLevelLoader({ loading: false, id: "" });
@@ -143,8 +140,6 @@ export default function AdminAddNewProduct() {
       setFormData(initialFormData);
     }
   }
-
-  // console.log(formData);
 
   return (
     <div className="w-full mt-5 mr-0 mb-0 ml-0 relative">

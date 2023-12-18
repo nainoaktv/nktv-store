@@ -20,8 +20,6 @@ export default function OrderDetails() {
   const params = useParams();
   const router = useRouter();
 
-  console.log(params);
-
   async function extractOrderDetails() {
     setPageLevelLoader(true);
 
@@ -33,8 +31,6 @@ export default function OrderDetails() {
     } else {
       setPageLevelLoader(false);
     }
-
-    console.log(response);
   }
 
   useEffect(() => {
