@@ -37,3 +37,6 @@ Follow these steps to get Fitaku up and running on your local machine.
 
 <img width="753" alt="home" src="https://github.com/nainoaktv/nktv-store/assets/105531873/339ede59-31dc-4095-b7d3-31921df33a12">
 <img width="775" alt="product-details" src="https://github.com/nainoaktv/nktv-store/assets/105531873/48887179-b808-484d-8045-b1b2cedae369">
+<img width="753" alt="user-orders" src="https://github.com/nainoaktv/nktv-store/assets/105531873/da4342b5-41bf-4e58-869a-6953e730c908">
+<img width="775" alt="admin-view-orders" src="https://github.com/nainoaktv/nktv-store/assets/105531873/d177ee0a-4ed1-401b-a39e-d64fa27cd504">
+![add-product](https://github.com/nainoaktv/nktv-store/assets/105531873/9436dad2-f434-4ae2-9481-81882306cb92)
